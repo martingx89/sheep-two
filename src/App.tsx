@@ -1,5 +1,50 @@
+import React from 'react';
+import './App.css';
+import { Message } from './types';
+import { useAppSelector, useAppDispatch } from './store/store';
+import { AddMessageActon, DeleteMessageAction, UpdateMessageAction } from './store/actions';
+import { selectMessages } from './store/selectors';
+import { v4 as uuidv4 } from 'uuid';
+
 const App = () => {
-  return <div className='App'></div>;
+  const { messages } = useAppSelector(selectMessages);
+
+  const dispatch = useAppDispatch();
+
+  const addMessage = (message: Message) => {
+    dispatch(AddMessageActon(message));
+  };
+
+  const deleteMessage = (message: Message) => {
+    dispatch(DeleteMessageAction(message));
+    console.log(message);
+  };
+
+  const updateMessage = (message: Message) => {
+    dispatch(UpdateMessageAction(message));
+  };
+
+  return (
+    <div className='App'>
+      <button
+        onClick={() =>
+          addMessage({
+            id: uuidv4(),
+            level: 'info',
+            text: 'info',
+          })
+        }>
+        Add
+      </button>
+      {messages.map((el) => (
+        <div key={el.id}>
+          <p>{el.text}</p>
+          <button onClick={() => deleteMessage(el)}>Delete</button>
+          <button onClick={() => updateMessage(el)}>Edit</button>
+        </div>
+      ))}
+    </div>
+  );
 };
 
 export default App;
