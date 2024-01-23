@@ -1,5 +1,4 @@
 import React from 'react';
-import './App.css';
 import { Message } from './types';
 import { useAppSelector, useAppDispatch } from './store/store';
 import { AddMessageActon, DeleteMessageAction, UpdateMessageAction } from './store/actions';
