@@ -1,48 +1,20 @@
 import React from 'react';
-import { Message } from './types';
-import { useAppSelector, useAppDispatch } from './store/store';
-import { AddMessageActon, DeleteMessageAction, UpdateMessageAction } from './store/actions';
-import { selectMessages } from './store/selectors';
-import { v4 as uuidv4 } from 'uuid';
+import { Route, Routes } from 'react-router';
+import Home from './components/pages/home/Home';
+import About from './components/pages/about/About';
+import Rules from './components/pages/rules/Rules';
+import NotFound from './components/pages/404/NotFound';
 
 const App = () => {
-  const { messages } = useAppSelector(selectMessages);
-
-  const dispatch = useAppDispatch();
-
-  const addMessage = (message: Message) => {
-    dispatch(AddMessageActon(message));
-  };
-
-  const deleteMessage = (message: Message) => {
-    dispatch(DeleteMessageAction(message));
-    console.log(message);
-  };
-
-  const updateMessage = (message: Message) => {
-    dispatch(UpdateMessageAction(message));
-  };
-
   return (
-    <div className='App'>
-      <button
-        onClick={() =>
-          addMessage({
-            id: uuidv4(),
-            level: 'info',
-            text: 'info',
-          })
-        }>
-        Add
-      </button>
-      {messages.map((el) => (
-        <div key={el.id}>
-          <p>{el.text}</p>
-          <button onClick={() => deleteMessage(el)}>Delete</button>
-          <button onClick={() => updateMessage(el)}>Edit</button>
-        </div>
-      ))}
-    </div>
+    <main>
+      <Routes>
+        <Route path='/' element={<Home />} />
+        <Route path='/about' element={<About />} />
+        <Route path='/rules' element={<Rules />} />
+        <Route path='*' element={<NotFound />} />
+      </Routes>
+    </main>
   );
 };
 
